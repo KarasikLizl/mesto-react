@@ -1,6 +1,6 @@
 import '../index.css'; 
 
-function PopupWithImage({card, onClose}) {
+function ImagePopup({card, onClose}) {
   return (
     <div className={ `popup popup_photo_opened popup_background_dark ${card ? "popup_is_opened" : ""}`}>
     <div className="popup__container popup__container_photo_opened">                 
@@ -17,4 +17,4 @@ function PopupWithImage({card, onClose}) {
   )
 };
 
-export default PopupWithImage;
+export default ImagePopup;
