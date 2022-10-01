@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Main from '../components/Main';
 import PopupWithForm from './PopupWithForm';
-import PopupWithImage from './PopupWithImage';
+import ImagePopup from './ImagePopup';
 
 
 function App() {
@@ -92,7 +92,7 @@ function App() {
         </PopupWithForm>
 
         {/* попап картинки */}
-        <PopupWithImage card={selectedCard} onClose={() => {
+        <ImagePopup card={selectedCard} onClose={() => {
 					setSelectedCard(false);
 				}}/>
     </div>
