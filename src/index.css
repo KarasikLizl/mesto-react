@@ -52,7 +52,6 @@
 @import url("./blocks/popup/__title/__type/popup__title_type_confirm.css");
 /* стили form */
 @import url("./blocks/form/form.css");
-@import url("./blocks/form/_profile/form_profile.css");
 @import url("./blocks/form/__input/form__input.css");
 @import url("./blocks/form/__input/_type/form__input_type_error.css");
 @import url("./blocks/form/__submit-button/form__submit-button.css");

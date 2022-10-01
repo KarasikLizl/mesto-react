@@ -12,12 +12,12 @@ function Main() {
             <div className="profile__info">
               <div className="profile__name">
                 <h1 className="profile__title">Жак-Ив Кусто</h1>
-                <button className="profile__edit-button" type="button" />
+                <button className="profile__edit-button" type="button"/>
               </div>
               <p className="profile__subtitle">Исследователь океана</p>
             </div>
           </div>
-          <button className="profile__add-button" type="button" />
+          <button className="profile__add-button" type="button"/>
         </section>
         <section className="elements">
           <ul className="cards">
