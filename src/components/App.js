@@ -1,5 +1,5 @@
 import '../index.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Header from '../components/Header';
 import Main from '../components/Main';
@@ -12,6 +12,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(false);
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen)
@@ -25,20 +26,38 @@ function App() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen)
   };
 
+  const handleCardClick = (card) => {
+    setSelectedCard(card)
+  };
+
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsConfirmationPopupOpen(false);
+    setSelectedCard(false);
   };
   
+  useEffect(() => {
+		document.addEventListener("keydown", (event) => {
+			if (event.key === "Escape") {
+				setSelectedCard(false);
+				setIsEditAvatarPopupOpen(false);
+    		setIsEditProfilePopupOpen(false);
+    		setIsAddPlacePopupOpen(false);
+        setIsConfirmationPopupOpen(false);
+			}
+		})
+	});
+
   return (
     <div className='page'>
       <Header />
       <Main
         onEditAvatar={handleEditAvatarClick}
 				onEditProfile={handleEditProfileClick}
-        onAddPlace={handleAddPlaceClick}>
+        onAddPlace={handleAddPlaceClick}
+        onCardClick={handleCardClick}>
       </Main>
       <template id='card-template' />
 
@@ -73,7 +92,9 @@ function App() {
         </PopupWithForm>
 
         {/* попап картинки */}
-        <PopupWithImage/>
+        <PopupWithImage card={selectedCard} onClose={() => {
+					setSelectedCard(false);
+				}}/>
     </div>
   );
 }
