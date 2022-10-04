@@ -40,19 +40,6 @@ function App() {
     setIsSelectedCardOpen(false);
   };
 
-  // useEffect(() => {
-  //   function onKeyDown(event) {
-  //     if (event.key === "Escape") {
-  //       closeAllPopups();
-  //     }
-  //   }
-  //   document.addEventListener("keydown", onKeyDown);
-
-  //   return () => {
-  //     document.removeEventListener("keydown", onKeyDown);
-  //   };
-  // }, []);
-
   function closeOnEsc(event) {
     if (event.key === "Escape") {
      closeAllPopups();
