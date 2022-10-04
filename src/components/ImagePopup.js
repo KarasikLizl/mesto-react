@@ -1,6 +1,16 @@
 import "../index.css";
+import { useEffect } from "react";
 
-function ImagePopup({ card, onClose }) {
+function ImagePopup({ card, onClose, onCloseEsc, isOpen }) {
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("keydown", onCloseEsc);
+    }
+    return () => {
+      document.removeEventListener("keydown", onCloseEsc);
+    };
+  });
+
   return (
     <div
       className={`popup popup_photo_opened popup_background_dark ${

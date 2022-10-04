@@ -1,14 +1,25 @@
 import "../index.css";
+import { useEffect } from "react";
 
 function PopupWithForm({
   isOpen,
   onClose,
+  onCloseEsc,
   title,
   name,
   children,
   buttonType,
   buttonName,
 }) {
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("keydown", onCloseEsc);
+    }
+    return () => {
+      document.removeEventListener("keydown", onCloseEsc);
+    };
+  });
+
   return (
     <div
       className={

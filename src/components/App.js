@@ -1,5 +1,5 @@
 import "../index.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import Header from "../components/Header";
 import Main from "../components/Main";
@@ -12,6 +12,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
+  const [isSelectedCardOpen, setIsSelectedCardOpen] = useState(false)
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -27,6 +28,7 @@ function App() {
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
+    setIsSelectedCardOpen(!isSelectedCardOpen);
   };
 
   const closeAllPopups = () => {
@@ -35,24 +37,27 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsConfirmationPopupOpen(false);
     setSelectedCard({});
+    setIsSelectedCardOpen(false);
   };
 
-  useEffect(() => {
-    function onKeyDown(event) {
-      if (event.key === "Escape") {
-        setSelectedCard({});
-        setIsEditAvatarPopupOpen(false);
-        setIsEditProfilePopupOpen(false);
-        setIsAddPlacePopupOpen(false);
-        setIsConfirmationPopupOpen(false);
-      }
-    }
-    document.addEventListener("keydown", onKeyDown);
+  // useEffect(() => {
+  //   function onKeyDown(event) {
+  //     if (event.key === "Escape") {
+  //       closeAllPopups();
+  //     }
+  //   }
+  //   document.addEventListener("keydown", onKeyDown);
 
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("keydown", onKeyDown);
+  //   };
+  // }, []);
+
+  function closeOnEsc(event) {
+    if (event.key === "Escape") {
+     closeAllPopups();
+  }
+}
 
   return (
     <div className="page">
@@ -69,6 +74,7 @@ function App() {
       <PopupWithForm
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
+        onCloseEsc={closeOnEsc}
         title="Редактировать профиль"
         name="profile"
         buttonType="submit-button_type_profile"
@@ -104,6 +110,7 @@ function App() {
       <PopupWithForm
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
+        onCloseEsc={closeOnEsc}
         title="Обновить аватар?"
         name="edit-avatar"
         buttonType="submit-button_type_avatar"
@@ -124,6 +131,7 @@ function App() {
       <PopupWithForm
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
+        onCloseEsc={closeOnEsc}
         title="Новое место"
         name="photo_add"
         buttonType="submit-button_type_photo"
@@ -154,6 +162,7 @@ function App() {
       {/* попап подтверждения удаление */}
       <PopupWithForm
         isOpen={isConfirmationPopupOpen}
+        onCloseEsc={closeOnEsc}
         title="Вы уверены?"
         name="photo_delete"
         buttonType="confirm-button"
@@ -166,6 +175,8 @@ function App() {
         onClose={() => {
           closeAllPopups();
         }}
+        onCloseEsc={closeOnEsc}
+        isOpen={isSelectedCardOpen}
       />
     </div>
   );
