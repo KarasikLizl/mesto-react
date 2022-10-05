@@ -9,7 +9,7 @@ function ImagePopup({ card, onClose, onCloseEsc, isOpen }) {
     return () => {
       document.removeEventListener("keydown", onCloseEsc);
     };
-  });
+  }, [isOpen, onCloseEsc]);
 
   return (
     <div

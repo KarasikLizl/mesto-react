@@ -18,7 +18,7 @@ function PopupWithForm({
     return () => {
       document.removeEventListener("keydown", onCloseEsc);
     };
-  });
+  }, [isOpen, onCloseEsc]);
 
   return (
     <div
