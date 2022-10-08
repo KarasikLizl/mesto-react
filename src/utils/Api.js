@@ -55,20 +55,23 @@ class Api {
     }).then(this._checkError);
   }
 
-  putLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+  changeLikeCardStatus(cardId, setIsLiked) {
+    const putLike = {
       method: "PUT",
       headers: this._headers,
-    }).then(this._checkError);
-  }
+    };
 
-  removeLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+    const deleteLike = {
       method: "DELETE",
       headers: this._headers,
-    }).then(this._checkError);
+    };
+
+    return fetch(
+      `${this._baseUrl}/cards/${cardId}/likes`,
+      setIsLiked ? putLike : deleteLike
+    ).then(this._checkError);
   }
-};
+}
 
 const api = new Api({
   baseUrl: "https://mesto.nomoreparties.co/v1/cohort-49",
@@ -76,6 +79,6 @@ const api = new Api({
     authorization: "a3ec4c90-fa20-46bf-aded-3c42f7d71250",
     "Content-Type": "application/json",
   },
-})
+});
 
 export default api;
