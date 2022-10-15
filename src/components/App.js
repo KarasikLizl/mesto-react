@@ -18,7 +18,7 @@ function App() {
   const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [isSelectedCardOpen, setIsSelectedCardOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
@@ -154,7 +154,7 @@ function App() {
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
         ></Main>
-        <template id="card-template" />
+        <div id="card-template" />
 
         {/* попап редактирования профиля */}
         <EditProfilePopup

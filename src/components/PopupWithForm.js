@@ -42,7 +42,6 @@ function PopupWithForm({
           method="post"
           name="profile-edit"
           className={`form form_${name}`}
-          noValidate
         >
           {children}
           <button

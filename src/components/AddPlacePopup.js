@@ -1,5 +1,5 @@
 import "../index.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, onCloseEsc, onAddPlace }) {
@@ -19,6 +19,13 @@ function AddPlacePopup({ isOpen, onClose, onCloseEsc, onAddPlace }) {
     onAddPlace({ name: cardName, link: cardUrl });
     e.target.reset()
   }
+
+  useEffect(()=>{
+    if(isOpen) {
+      setCardName('');
+      setCardUrl('');
+    }
+  }, [isOpen])
 
   return (
     <PopupWithForm
