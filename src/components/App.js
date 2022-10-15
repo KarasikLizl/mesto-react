@@ -7,6 +7,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import api from "../utils/Api";
 import CurrentUserContext from "../../src/contexts/CurrentUserContext";
 
@@ -18,12 +19,24 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [isSelectedCardOpen, setIsSelectedCardOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState([]);
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     api
       .getUserInfo()
       .then((currentUser) => {
         setCurrentUser(currentUser);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((cards) => {
+        setCards(cards);
       })
       .catch((err) => {
         console.error(err);
@@ -46,7 +59,7 @@ function App() {
     setSelectedCard(card);
     setIsSelectedCardOpen(!isSelectedCardOpen);
   }
-
+  //Редактирование профиля
   function handleUpdateUser(userInfo) {
     api
       .editUserInfo(userInfo)
@@ -68,6 +81,48 @@ function App() {
       })
       .catch((err) => {
         console.error(err);
+      });
+  }
+
+  function handleAddPlaceSubmit(card) {
+    api
+      .addNewCard(card)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+  //Взаимодействие с карточками
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleCardDelete(card) {
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards((state) =>
+          state.filter((c) => {
+            return c._id !== card._id;
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
@@ -95,6 +150,9 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
+          cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         ></Main>
         <template id="card-template" />
 
@@ -115,36 +173,12 @@ function App() {
         />
 
         {/* попап добавления картинки */}
-        <PopupWithForm
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onCloseEsc={closeOnEsc}
-          title="Новое место"
-          name="photo_add"
-          buttonType="submit-button_type_photo"
-          buttonName="Создать"
-        >
-          <input
-            type="text"
-            id="photo-name"
-            placeholder="Название"
-            className="form__input form__input_field_title"
-            name="name"
-            minLength={2}
-            maxLength={30}
-            required
-          />
-          <span className="form__input-error photo-name-error" />
-          <input
-            type="url"
-            id="link"
-            placeholder="Ссылка на картинку"
-            className="form__input form__input_field_photo"
-            name="link"
-            required
-          />
-          <span className="form__input-error link-error" />
-        </PopupWithForm>
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
         {/* попап подтверждения удаление */}
         <PopupWithForm

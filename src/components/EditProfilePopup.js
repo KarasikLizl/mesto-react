@@ -4,27 +4,26 @@ import PopupWithForm from "./PopupWithForm";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, onCloseEsc }) {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const currentUser = useContext(CurrentUserContext);
-  
- function onEditProfile (event) {
+
+  function onEditProfile(event) {
     setName(event.target.value);
   }
 
-  function onEditDescriprion (event) {
+  function onEditDescriprion(event) {
     setDescription(event.target.value);
   }
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    onUpdateUser ({
+    onUpdateUser({
       name,
       about: description,
     });
   }
-
 
   useEffect(() => {
     setName(currentUser.name);
@@ -40,11 +39,11 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, onCloseEsc }) {
       title="Редактировать профиль"
       name="profile"
       buttonType="submit-button_type_profile"
-      buttonName="Сохранить"      
+      buttonName="Сохранить"
     >
       <input
         onChange={onEditProfile}
-        value={name || ''}
+        value={name || ""}
         type="text"
         id="title-input"
         placeholder="Ваше имя"
@@ -57,7 +56,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, onCloseEsc }) {
       <span className="form__input-error title-input-error" />
       <input
         onChange={onEditDescriprion}
-        value={description || ''}
+        value={description || ""}
         type="text"
         id="subtitle-input"
         placeholder="Пара слов о вас"
