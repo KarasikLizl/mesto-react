@@ -10,6 +10,7 @@ function PopupWithForm({
   children,
   buttonType,
   buttonName,
+  onSubmit
 }) {
   useEffect(() => {
     if (isOpen) {
@@ -34,6 +35,10 @@ function PopupWithForm({
         />
         <h3 className="popup__title">{title}</h3>
         <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            onSubmit(event);
+          }}
           method="post"
           name="profile-edit"
           className={`form form_${name}`}
